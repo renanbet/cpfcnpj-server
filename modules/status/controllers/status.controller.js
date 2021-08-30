@@ -3,21 +3,20 @@ const CounterModel = require('../../db/counters.model')
 
 const getStatus = async () => {
   var time = process.uptime()
-  let counter = await CounterModel
-    .findOne(
-      {
-        value: 'query'
-      },
-      {
-        count: true
-      }
-    )
+  let counter = await CounterModel.findOne(
+    {
+      value: 'query',
+    },
+    {
+      count: true,
+    }
+  )
   return {
     uptime: utils.formatUpTime(time),
-    consultas: counter.count
+    consultas: counter.count,
   }
 }
 
 module.exports = {
-  getStatus
+  getStatus,
 }

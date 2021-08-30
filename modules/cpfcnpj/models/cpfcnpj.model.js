@@ -4,7 +4,7 @@ var Schema = mongoose.Schema
 
 var CpfCnpjSchema = new Schema({
   value: String,
-  blacklist: Boolean
-});
+  blacklist: Boolean,
+})
 
 module.exports = mongoose.model('CpfCnpj', CpfCnpjSchema)

@@ -4,19 +4,19 @@ const Auth = require('../lib/auth')
 const insert = async (username, password) => {
   let user = await UserModel.findOne(
     {
-      username
+      username,
     },
     {
-      username: true
+      username: true,
     }
   )
   if (user != null) {
-    throw { error: "O usuário já existe!" }
+    throw { error: 'O usuário já existe!' }
   }
   let hash = Auth.createPasswordHash(password)
   let newUser = new UserModel({
     username,
-    password: hash
+    password: hash,
   })
   return await newUser.save()
 }
@@ -24,22 +24,22 @@ const insert = async (username, password) => {
 const login = async (username, password) => {
   let user = await UserModel.findOne(
     {
-      username
+      username,
     },
     {
       username: true,
-      password: true
+      password: true,
     }
   )
   if (!user || !Auth.passwordCompare(password, user.password)) {
     throw {
-      error: "Usuário ou senha inválidos!"
+      error: 'Usuário ou senha inválidos!',
     }
   }
   const tokenData = {}
   let token = Auth.createToken(tokenData)
   return {
-    token
+    token,
   }
 }
 
@@ -47,16 +47,16 @@ const getAll = async () => {
   let users = await UserModel.find(
     {},
     {
-      username: true
+      username: true,
     }
   )
   return {
-    users
+    users,
   }
 }
 
 module.exports = {
   insert,
   login,
-  getAll
+  getAll,
 }

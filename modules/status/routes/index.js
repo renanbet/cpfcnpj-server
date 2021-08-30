@@ -1,3 +1,6 @@
+/*
+ * Rotas do módulo status
+ */
 var express = require('express')
 var router = express.Router()
 const controller = require('../controllers/status.controller')
@@ -8,8 +11,7 @@ router.get('/', async (req, res, next) => {
     res.json(data)
   } catch (error) {
     console.log(error)
-    res.status(400)
-      .json(error)
+    res.status(400).json(error)
   }
 })
 

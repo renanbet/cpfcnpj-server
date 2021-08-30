@@ -3,16 +3,15 @@ const Cpf = require('../lib/cpf')
 const Cnpj = require('../lib/cnpj')
 
 const get = async (value) => {
-  let cpfCnpj = await CpfCnpjModel
-    .findOne(
-      {
-        value
-      },
-      {
-        value: true,
-        blacklist: true
-      }
-    )
+  let cpfCnpj = await CpfCnpjModel.findOne(
+    {
+      value,
+    },
+    {
+      value: true,
+      blacklist: true,
+    }
+  )
   return cpfCnpj
 }
 
@@ -21,25 +20,24 @@ const getAll = async (search = '') => {
     if (search.length < 15) {
       let cpf = new Cpf(search)
       if (!cpf.validate()) {
-        throw { error: "CPF inválido!" }
+        throw { error: 'CPF inválido!' }
       }
     } else {
       let cnpj = new Cnpj(search)
       if (!cnpj.validate()) {
-        throw { error: "CNPJ inválido!" }
+        throw { error: 'CNPJ inválido!' }
       }
     }
   }
-  const filter = search ? {
-    value: search
-  } : {}
-  let cpfCnpjs = await CpfCnpjModel
-    .find(filter,
-      {
-        value: true,
-        blacklist: true
+  const filter = search
+    ? {
+        value: search,
       }
-    )
+    : {}
+  let cpfCnpjs = await CpfCnpjModel.find(filter, {
+    value: true,
+    blacklist: true,
+  })
   return cpfCnpjs
 }
 
@@ -47,29 +45,29 @@ const insert = async (cpfCnpj) => {
   if (cpfCnpj.value.length < 15) {
     let cpf = new Cpf(cpfCnpj.value)
     if (!cpf.validate()) {
-      throw { error: "CPF inválido!" }
+      throw { error: 'CPF inválido!' }
     }
   } else {
     let cnpj = new Cnpj(cpfCnpj.value)
     if (!cnpj.validate()) {
-      throw { error: "CNPJ inválido!" }
+      throw { error: 'CNPJ inválido!' }
     }
   }
 
   let data = await CpfCnpjModel.findOne(
     {
-      value: cpfCnpj.value
+      value: cpfCnpj.value,
     },
     {
-      value: true
+      value: true,
     }
   )
   if (data != null) {
-    throw { error: "CpfCnpj já existe!" }
+    throw { error: 'CpfCnpj já existe!' }
   }
   /*
-  * Atribui blacklist = false caso não informado
-  */
+   * Atribui blacklist = false caso não informado
+   */
   let newCpfCnpj = new CpfCnpjModel(cpfCnpj)
   newCpfCnpj.blacklist = newCpfCnpj.blacklist ? newCpfCnpj.blacklist : false
   newCpfCnpj.date = new Date()
@@ -94,5 +92,5 @@ module.exports = {
   getAll,
   insert,
   update,
-  remove
+  remove,
 }

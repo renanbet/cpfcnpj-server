@@ -1,4 +1,4 @@
-var jwt = require("jsonwebtoken")
+var jwt = require('jsonwebtoken')
 const passwordHash = require('password-hash')
 const TOKEN_EXP = process.env.TOKEN_EXP || 600000
 const SECRET = process.env.SECRET || 'secret'
@@ -6,7 +6,9 @@ const SECRET = process.env.SECRET || 'secret'
 function Auth() {}
 
 Auth.prototype.ensureAuthorized = (req, res, next) => {
-  const token = req.headers["authorization"] ? req.headers["authorization"].replace("Bearer ", "") : ''
+  const token = req.headers['authorization']
+    ? req.headers['authorization'].replace('Bearer ', '')
+    : ''
   if (token) {
     jwt.verify(token, SECRET, (err, decoded) => {
       if (err) {
@@ -22,11 +24,11 @@ Auth.prototype.ensureAuthorized = (req, res, next) => {
 }
 
 Auth.prototype.createToken = (data) => {
-	var obj = {
+  var obj = {
     data,
-    exp: Math.floor(Date.now() / 1000) + parseInt(TOKEN_EXP)
+    exp: Math.floor(Date.now() / 1000) + parseInt(TOKEN_EXP),
   }
-	return jwt.sign(obj, SECRET)
+  return jwt.sign(obj, SECRET)
 }
 
 Auth.prototype.createPasswordHash = (password) => {
