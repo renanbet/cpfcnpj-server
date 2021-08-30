@@ -5,6 +5,17 @@ db.connection(true, time)
 
 const expect = require('chai').expect
 
+before((done) => {
+  console.log('await db')
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, 4000)
+  }).then(() => {
+    done()
+  })
+})
+
 describe('Db', () => {
   it('Should return bd status', () => {
     let connection = db.status()
