@@ -17,7 +17,7 @@ before((done) => {
 })
 
 describe('Db', () => {
-  it('Should return bd status', () => {
+  it('Should return db status', () => {
     let connection = db.status()
     expect(connection === 'connected').to.be.true
   })
