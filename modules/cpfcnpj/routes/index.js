@@ -9,7 +9,8 @@ const Auth = require('../../authentication/lib/auth')
 router.get('/', Auth.ensureAuthorized, async (req, res, next) => {
   try {
     let search = req.query.search ? req.query.search : ''
-    let data = await Controller.getAll(search)
+    let blacklist = req.query.blacklist ? req.query.blacklist : null
+    let data = await Controller.getAll(search, blacklist)
     res.status(200).json({ data })
   } catch (error) {
     console.log(error)

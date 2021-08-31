@@ -15,7 +15,7 @@ const get = async (value) => {
   return cpfCnpj
 }
 
-const getAll = async (search = '') => {
+const getAll = async (search = '', blacklist = null) => {
   if (search) {
     if (search.length < 15) {
       let cpf = new Cpf(search)
@@ -29,11 +29,13 @@ const getAll = async (search = '') => {
       }
     }
   }
-  const filter = search
-    ? {
-        value: search,
-      }
-    : {}
+  let filter = {}
+  if (search) {
+    filter['value'] = search
+  }
+  if (blacklist !== null) {
+    filter['blacklist'] = blacklist
+  }
   let cpfCnpjs = await CpfCnpjModel.find(filter, {
     value: true,
     blacklist: true,
